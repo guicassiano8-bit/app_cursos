@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -25,9 +26,9 @@ class LoginController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(LoginRequest $request)
     {
-        //
+        dd($request->safe()->only(['email','password']));
     }
 
     /**
