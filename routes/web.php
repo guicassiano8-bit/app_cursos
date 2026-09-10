@@ -15,4 +15,5 @@ Route::get('/checkout',[CheckoutController::class,'index'])->name('checkout.inde
 Route::get('/contact',[ContactController::class,'index'])->name('contact.index');
 Route::get('/courses',[CoursesController::class,'index'])->name('courses.index');
 Route::get('/lesson',[LessonController::class,'index'])->name('lesson.index');
-Route::resource('/login',LoginController::class);
+Route::resource('/login',LoginController::class)->except('destroy');
+Route::delete('/logout',[LoginController::class,'destroy'])->name('login.destroy');

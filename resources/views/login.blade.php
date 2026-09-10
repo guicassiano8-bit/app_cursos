@@ -5,6 +5,14 @@
     <div class="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md">
       <h1 class="text-3xl font-bold text-center mb-6">Entrar na sua conta</h1>
 
+      @if (session()->has('success'))
+        <div class="bg-green-600 text-white text-center italic p-2 rounded text-sm">{{ session('success')}}</div>
+      @endif
+      
+      @if (session()->has('error'))
+        <div class="bg-red-600 text-white text-center italic p-2 rounded text-sm">{{ session('error')}}</div>
+      @endif
+
       <form method="POST" action="{{ route('login.store') }}" class="space-y-5">
         <!-- E-mail -->
         @csrf
