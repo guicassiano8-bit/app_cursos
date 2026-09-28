@@ -3,6 +3,7 @@
 @section('content')
 <div class="md:col-span-3 flex justify-center items-center">
     <div class="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md">
+      @guest
       <h1 class="text-3xl font-bold text-center mb-6">Entrar na sua conta</h1>
 
       @if (session()->has('success'))
@@ -11,6 +12,10 @@
       
       @if (session()->has('error'))
         <div class="bg-red-600 text-white text-center italic p-2 rounded text-sm">{{ session('error')}}</div>
+      @endif
+
+      @if (session()->has('forgot'))
+        <div class="bg-red-600 text-white text-center italic p-2 rounded text-sm">{{ session('forgot')}}</div>
       @endif
 
       <form method="POST" action="{{ route('login.store') }}" class="space-y-5">
@@ -67,7 +72,7 @@
             <input type="checkbox" name="remember" class="text-indigo-600 rounded">
             <span class="text-sm text-gray-600">Lembrar-me</span>
           </label>
-          <a href="#" class="text-sm text-indigo-600 hover:underline">
+          <a href="{{ route('forgot-password.index') }}" class="text-sm text-indigo-600 hover:underline">
             Esqueci minha senha
           </a>
         </div>
@@ -84,10 +89,13 @@
       <!-- Cadastro -->
       <p class="text-sm text-center text-gray-600 mt-6">
         Ainda não tem conta?
-        <a href="#" class="text-indigo-600 hover:underline font-medium">
+        <a href="{{ route('user.create') }}" class="text-indigo-600 hover:underline font-medium">
           Cadastre-se
         </a>
       </p>
+      @else
+        <div class="bg-green-600 text-white text-sm text-center p-2 rounded">Você está logado</div>
+      @endguest
     </div>
   </div>
 @endsection

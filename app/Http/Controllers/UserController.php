@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
+use App\Http\Requests\UserRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class LoginController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('login',['title' => 'Login']);
+        //
     }
 
     /**
@@ -21,22 +22,21 @@ class LoginController extends Controller
      */
     public function create()
     {
-        //
+        return view('user.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(LoginRequest $request)
+    public function store(UserRequest $request)
     {
-        if(Auth::attempt($request->safe()->only(['email','password']),$request->has('remember'))){
-            $request->session()->regenerate();
+        $data = $request->validated();
 
-            return redirect()->route('home.index')->with('success','Login efetuado com sucesso!');
-        }
+        $user = User::create($data);
 
-        return back()->with(['error' => 'Erro ao efetuar o login'])->onlyInput('email');
-            
+        Auth::login($user);
+
+        return redirect()->route('home.index');
     }
 
     /**
@@ -66,12 +66,8 @@ class LoginController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request)
+    public function destroy(string $id)
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect()->route("home.index");
+        //
     }
 }
